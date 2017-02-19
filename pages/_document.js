@@ -17,10 +17,10 @@ export default class MyDoc extends Document {
 			<body>
 				<Main />
 				<NextScript />
-			</body>
 
-			<script src="/static/bundle.js" />
-			<script src="//localhost:9091" />
+				<script src="/static/bundle.js" />
+				<script src="//localhost:9091" />
+			</body>
 		</html>
 		)
 	}

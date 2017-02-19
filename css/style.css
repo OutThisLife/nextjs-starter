@@ -1,0 +1,7 @@
+.abcmouse {
+	cursor: pointer;
+	display: block;
+	color: red;
+	text-align: center;
+	margin: 100px auto;
+}

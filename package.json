@@ -1,0 +1,27 @@
+{
+  "name": "next",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "next": "^2.0.0-beta.26",
+    "react-dom": "^15.4.2",
+    "react": "^15.4.2",
+    "node-sass": "^4.5.0",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^6.0.1"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.3.2",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.22.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "",
+  "license": "ISC"
+}

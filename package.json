@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "css-loader": "^0.26.1",
     "next": "^2.0.0-beta.26",
-    "react-dom": "^15.4.2",
-    "react": "^15.4.2",
     "node-sass": "^4.5.0",
     "raw-loader": "^0.5.1",
-    "sass-loader": "^6.0.1"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "sass-loader": "^6.0.1",
+    "skeleton-loader": "0.0.7",
+    "val-loader": "^0.5.0"
   },
   "devDependencies": {
     "babel-loader": "^6.3.2",

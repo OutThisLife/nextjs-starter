@@ -1,1 +1,9 @@
-body{color:white;background:black}
+header {
+  padding: 10px;
+  border: 1px solid white;
+  margin: 0 0 10px;
+  background: black; }
+
+body {
+  color: #FFF;
+  background: #000080; }

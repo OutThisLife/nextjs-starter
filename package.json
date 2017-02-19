@@ -32,8 +32,8 @@
     "build": "next build",
     "start": "next start",
     "watch:scripts": "watchify assets/js/main.js -t babelify -o static/bundle.js -dv",
-    "styles": "node-sass -r --output-style compressed assets/css/main.sass -o static",
-    "watch:styles": "npm run styles && npm run styles -- -w",
+    "styles": "node-sass --include-path css assets/css/main.sass static/main.css",
+    "watch:styles": "npm run styles && npm run styles -- --w",
     "live-reload": "live-reload --port 9091 static/"
   },
   "author": "",

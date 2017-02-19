@@ -15,6 +15,10 @@ export default class MyDoc extends Document {
 			</Head>
 
 			<body>
+				<header>
+					Logo!
+				</header>
+
 				<Main />
 				<NextScript />
 

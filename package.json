@@ -14,18 +14,26 @@
     "react-dom": "^15.4.2",
     "sass-loader": "^6.0.1",
     "skeleton-loader": "0.0.7",
+    "style-loader": "^0.13.1",
     "val-loader": "^0.5.0"
   },
   "devDependencies": {
-    "babel-loader": "^6.3.2",
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-regenerator": "^6.22.0"
+    "babel-preset-env": "^1.1.8",
+    "babelify": "https://registry.npmjs.org/babelify/-/babelify-7.3.0.tgz",
+    "live-reload": "^1.1.0",
+    "parallelshell": "^2.0.0",
+    "watch": "^1.0.2",
+    "watchify": "^3.9.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
+    "dev": "parallelshell \"next\" \"npm run watch:scripts\" \"npm run watch:styles\" \"npm run live-reload\"",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "watch:scripts": "watchify assets/js/main.js -t babelify -o static/bundle.js -dv",
+    "styles": "node-sass -r --output-style compressed assets/css/main.sass -o static",
+    "watch:styles": "npm run styles && npm run styles -- -w",
+    "live-reload": "live-reload --port 9091 static/"
   },
   "author": "",
   "license": "ISC"

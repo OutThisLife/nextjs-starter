@@ -20,11 +20,7 @@ const Templates = {
 
 export default class Index extends React.Component {
 	static async getInitialProps({ req }) {
-		const
-			response = await fetch(process.env.WP_URL + '/wp-json/invision/v1/sitedata?cb=' + +new Date),
-			json = await response.json()
-
-		Store.SaveData(json)
+		await Store.load()
 
 		return {
 			pathname: req.url,

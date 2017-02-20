@@ -6,10 +6,25 @@ import EventEmitter from 'events'
 export default _.extend({}, EventEmitter.prototype, {
 	_data: [],
 
-	SaveData(obj) {
-		this._data = obj
-		this.emitChange()
+	async load() {
+		if (_.isEmpty(this._data)) {
+			const
+				response = await fetch(process.env.WP_URL + '/wp-json/invision/v1/sitedata'),
+				json = await response.json()
+
+			this._data = json
+
+			console.log('saved to store')
+		}
+
+		else {
+			console.log('loaded from cache')
+		}
+
+		return true
 	},
+
+	// --
 
 	GetFirst(filter) {
 		return _.first(this.Get(filter))
@@ -27,6 +42,10 @@ export default _.extend({}, EventEmitter.prototype, {
 
 	GetMenu(slug) {
 		return this._data.menus[slug].links || []
+	},
+
+	isEmpty() {
+		return _.isEmpty(this._data)
 	},
 
 	// --

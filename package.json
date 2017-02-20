@@ -21,19 +21,22 @@
   "devDependencies": {
     "babel-preset-env": "^1.1.8",
     "babelify": "https://registry.npmjs.org/babelify/-/babelify-7.3.0.tgz",
+    "browserify": "^14.1.0",
     "live-reload": "^1.1.0",
     "parallelshell": "^2.0.0",
+    "uglifyify": "^3.0.4",
     "watch": "^1.0.2",
     "watchify": "^3.9.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parallelshell \"next\" \"npm run watch:scripts\" \"npm run watch:styles\" \"npm run live-reload\"",
+    "dev": "parallelshell \"next\" \"npm run watch:js\" \"npm run watch:css\" \"npm run live-reload\"",
     "build": "next build",
     "start": "next start",
-    "watch:scripts": "watchify assets/js/main.js -t babelify -o static/bundle.js -dv",
-    "styles": "node-sass --include-path css assets/css/main.sass static/main.css",
-    "watch:styles": "npm run styles && npm run styles -- --w",
+    "build:js": "browserify -t babelify -t uglifyify assets/js/main.js -o static/bundle.js",
+    "watch:js": "watchify assets/js/main.js -t babelify -o static/bundle.js -dv",
+    "css": "node-sass --include-path css --output-style compressed assets/css/main.sass static/main.css",
+    "watch:css": "npm run css && npm run css -- --w",
     "live-reload": "live-reload --port 9091 static/"
   },
   "author": "",

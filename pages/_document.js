@@ -1,13 +1,15 @@
-require('es6-promise').polyfill()
-require('isomorphic-fetch')
-
 import Document, { Head, Main, NextScript } from 'next/document'
-import Store from '../stores/Store'
 
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Header from '../components/header'
+import Footer from '../components/footer'
+
+// ---------------------------------------------
 
 export default class CustomDocument extends Document {
+	static async getInitialProps(ctx) {
+		const props = await Document.getInitialProps(ctx)
+		return { ...props }
+	}
 	render() {
 		return (
 		<html>
@@ -18,9 +20,8 @@ export default class CustomDocument extends Document {
 
 			<body>
 				<Header />
-				<Main />
+				<Main {...this.props} />
 				<Footer />
-
 				<NextScript />
 				<script src="/static/bundle.js" />
 			</body>

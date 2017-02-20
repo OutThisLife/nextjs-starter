@@ -11,8 +11,22 @@ export default _.extend({}, EventEmitter.prototype, {
 		this.emitChange()
 	},
 
+	GetFirst(filter) {
+		return _.first(this.Get(filter))
+	},
+
 	Get(filter) {
-		return _.first(_.filter(this._data, filter))
+		return _.filter(this._data, filter)
+	},
+
+	GetPage(slug) {
+		return _.first(_.filter(this._data.pages, {
+			url: slug
+		})) || {}
+	},
+
+	GetMenu(slug) {
+		return this._data.menus[slug].links || []
 	},
 
 	// --

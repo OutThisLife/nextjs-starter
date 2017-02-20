@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Store from '../stores/store'
 
 // ---------------------------------------------
 
@@ -14,8 +15,10 @@ export default class Header extends React.Component {
 			<h1>Logo</h1>
 
 			<nav>
-				<Link href="/">Home</Link>
-				<Link href="/sample">Sample</Link>
+			{Store.GetMenu('header').map(link => {
+				const slug = link.url.replace(process.env.WP_URL, '') || '/'
+				return <Link key={Math.random()} href={slug}>{link.title}</Link>
+			})}
 			</nav>
 		</header>
 		)

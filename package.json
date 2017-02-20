@@ -42,7 +42,7 @@
     "heroku-postbuild": "heroku-nextjs-build"
   },
   "engines": {
-    "node": "latest"
+    "node": "6.9.x"
   },
   "cacheDirectories": [
     "nextjs/node_modules"

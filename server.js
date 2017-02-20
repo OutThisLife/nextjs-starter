@@ -20,7 +20,7 @@ app.prepare().then(() => {
 			app.render(req, res, '/index', query)
 
 		else handle(req, res, parsedUrl)
-	}).listen(3000, err => {
+	}).listen(process.env.PORT || 3000, err => {
 		if (err) throw err
 		console.log('Listening on http://localhost:3000')
 	})

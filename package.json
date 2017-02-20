@@ -33,7 +33,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parallelshell \"next\" \"npm run watch:js\" \"npm run watch:css\" \"npm run live-reload\"",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "build:js": "browserify -t babelify -t uglifyify assets/js/main.js -o static/bundle.js",
     "watch:js": "watchify assets/js/main.js -t babelify -o static/bundle.js -dv",
     "css": "node-sass --include-path css --output-style compressed assets/css/main.sass static/main.css",

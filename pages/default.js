@@ -8,6 +8,6 @@ export default class DefaultTemplate extends React.Component {
 	}
 
 	render() {
-		return <p>Default Page</p>
+		return <div dangerouslySetInnerHTML={{__html: this.props.content}} />
 	}
 }

@@ -8,6 +8,11 @@ export default class HomeTemplate extends React.Component {
 	}
 
 	render() {
-		return <p>Home Page</p>
+		return (
+		<div>
+			<figure className="masthead" />
+			<div dangerouslySetInnerHTML={{__html: this.props.content}} />
+		</div>
+		)
 	}
 }

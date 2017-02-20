@@ -13,12 +13,6 @@ export default _.extend({}, EventEmitter.prototype, {
 				json = await response.json()
 
 			this._data = json
-
-			console.log('saved to store')
-		}
-
-		else {
-			console.log('loaded from cache')
 		}
 
 		return true

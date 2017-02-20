@@ -8,8 +8,9 @@ import Footer from '../components/footer'
 export default class CustomDocument extends Document {
 	static async getInitialProps(ctx) {
 		const props = await Document.getInitialProps(ctx)
-		return { ...props }
+		return { ...props, pathname: ctx.req.url }
 	}
+
 	render() {
 		return (
 		<html>
@@ -19,8 +20,8 @@ export default class CustomDocument extends Document {
 			</Head>
 
 			<body>
-				<Header />
-				<Main {...this.props} />
+				<Header activePage={this.props.pathname} />
+				<Main />
 				<Footer />
 				<NextScript />
 				<script src="/static/bundle.js" />

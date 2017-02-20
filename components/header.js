@@ -12,7 +12,9 @@ export default class Header extends React.Component {
 	render() {
 		return (
 		<header>
-			<h1>Logo</h1>
+			<h1>
+				<Link href="/">MySite</Link>
+			</h1>
 
 			<nav>
 			{Store.GetMenu('header').map(link => {

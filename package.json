@@ -6,6 +6,10 @@
   "main": "index.js",
   "dependencies": {
     "@mars/heroku-nextjs-build": "^1.1.0",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babelify": "https://registry.npmjs.org/babelify/-/babelify-7.3.0.tgz",
     "css-loader": "^0.26.1",
     "next": "^2.0.0-beta.26",
     "node-sass": "^4.5.0",
@@ -20,8 +24,6 @@
     "val-loader": "^0.5.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.1.8",
-    "babelify": "https://registry.npmjs.org/babelify/-/babelify-7.3.0.tgz",
     "browserify": "^14.1.0",
     "live-reload": "^1.1.0",
     "parallelshell": "^2.0.0",

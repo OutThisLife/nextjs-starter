@@ -1,18 +1,23 @@
 import React from 'react'
-import { render } from 'react-dom'
-import Head from 'next/head'
+import Store from '../stores/Store'
 
 // ---------------------------------------------
 
-export default class Testing extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			clicks: 1
-		}
+export default class Homepage extends React.Component {
+	static async getInitialProps(ctx) {
+		const
+			response = await fetch('//headlesswp.herokuapp.com/wp-json/wp/v2/pages/2?v=' + +new Date),
+			json = await response.json()
+
+		return { page: json }
 	}
 
-	click() {
+	constructor(props) {
+		super(props)
+		this.state = { clicks: 1 }
+	}
+
+	handleClick() {
 		this.setState({
 			clicks: this.state.clicks + 1
 		})
@@ -20,7 +25,11 @@ export default class Testing extends React.Component {
 
 	render() {
 		return (
-		<div className="abcmouse" onClick={this.click.bind(this)}>clicks: {this.state.clicks}</div>
+		<span>
+			<div className="abcmouse" onClick={this.handleClick.bind(this)}>clicks: {this.state.clicks}</div>
+			<hr />
+			<div dangerouslySetInnerHTML={{__html: this.props.page.content.rendered}} />
+		</span>
 		)
 	}
 }

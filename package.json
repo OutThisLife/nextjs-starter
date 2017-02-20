@@ -11,6 +11,8 @@
     "babel-preset-react": "^6.23.0",
     "babelify": "https://registry.npmjs.org/babelify/-/babelify-7.3.0.tgz",
     "css-loader": "^0.26.1",
+    "es6-promise": "^4.0.5",
+    "isomorphic-fetch": "^2.2.1",
     "next": "^2.0.0-beta.26",
     "node-sass": "^4.5.0",
     "raw-loader": "^0.5.1",

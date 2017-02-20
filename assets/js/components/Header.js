@@ -1,1 +1,0 @@
-console.info('header.js loaded')

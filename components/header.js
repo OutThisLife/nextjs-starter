@@ -15,7 +15,7 @@ export default class Header extends React.PureComponent {
 
 			<nav>
 				{Store.GetMenu('header').map(link => {
-					const slug = `/${link.url.replace(process.env.WP_URL, '')}` || '/'
+					const slug = `/${link.url.replace(/(http?.*)\//g, '')}` || '/'
 
 					return (<Link prefetch key={Math.random()} href={slug}>
 						<a className={this.props.activePage === slug ? 'active' : 'inactive'}>

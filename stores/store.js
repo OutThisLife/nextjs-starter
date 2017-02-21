@@ -10,13 +10,16 @@ export default _.extend({}, EventEmitter.prototype, {
 	data: [],
 
 	async load() {
-		if (_.isEmpty(this.data)) {
+		// if (_.isEmpty(this.data)) {
 			const
-				response = await fetch(`${process.env.WP_URL}/wp-json/invision/v1/sitedata?bust=${+new Date}`),
+				response = await fetch(`${process.env.WP_URL}/wp-json/invision/v1/sitedata?bust=${+new Date}`, {
+					cache: 'no-cache',
+				}),
+
 				json = await response.json()
 
 			this.data = json
-		}
+		// }
 
 		return true
 	},

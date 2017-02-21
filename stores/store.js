@@ -12,7 +12,7 @@ export default _.extend({}, EventEmitter.prototype, {
 	async load() {
 		if (_.isEmpty(this.data)) {
 			const
-				response = await fetch(`${process.env.WP_URL}/wp-json/invision/v1/sitedata`),
+				response = await fetch(`${process.env.WP_URL}/wp-json/invision/v1/sitedata?bust=${+new Date}`),
 				json = await response.json()
 
 			this.data = json

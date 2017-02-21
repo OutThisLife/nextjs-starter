@@ -1,0 +1,34 @@
+{
+	"extends": "airbnb",
+	"plugins": [
+		"react",
+		"jsx-a11y",
+		"import",
+		"eslint-plugin-import"
+	],
+
+	"rules": {
+		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+		"no-console": "off",
+		"arrow-body-style": "off",
+		"linebreak-style": "off",
+		"no-tabs": "off",
+		"indent": [2, "tab"],
+		"curly": "off",
+		"semi": "off",
+		"one-var": ["error", "always"],
+		"eol-last": "off",
+		"arrow-parens": ["error", "as-needed"],
+		"no-cond-assign": "off",
+		"react/no-danger": "off",
+		"react/jsx-indent": [2, "tab"],
+		"react/jsx-indent-props": [2, "tab"],
+        "react/prefer-stateless-function": ["error", { "ignorePureComponents": true }],
+	},
+
+	"settings": {
+		"import/core-modules": [
+			"dotenv"
+		]
+	}
+}

@@ -1,14 +1,12 @@
+require('dotenv').load()
+
 const
 	{ createServer } = require('http'),
 	{ parse } = require('url'),
 	next = require('next'),
-	dotenv = require('dotenv'),
-
 	dev = process.env.NODE_ENV !== 'production',
 	app = next({ dev }),
 	handle = app.getRequestHandler()
-
-dotenv.load()
 
 app.prepare().then(() => {
 	createServer((req, res) => {

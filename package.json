@@ -14,6 +14,7 @@
     "dotenv": "^4.0.0",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
     "next": "^2.0.0-beta.26",
     "node-sass": "^4.5.0",
     "raw-loader": "^0.5.1",
@@ -26,6 +27,11 @@
   },
   "devDependencies": {
     "browserify": "^14.1.0",
+    "eslint": "^3.16.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
     "live-reload": "^1.1.0",
     "parallelshell": "^2.0.0",
     "uglifyify": "^3.0.4",
@@ -33,7 +39,7 @@
     "watchify": "^3.9.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "eslint $1",
     "dev": "parallelshell \"node server.js\" \"npm run watch:js\" \"npm run watch:css\" \"npm run live-reload\"",
     "build": "next build",
     "start": "NODE_ENV=production node server.js -p $PORT",

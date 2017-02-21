@@ -1,12 +1,16 @@
 import _ from 'lodash'
 import EventEmitter from 'events'
 
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 // ---------------------------------------------
 
 export default _.extend({}, EventEmitter.prototype, {
 	_data: [],
 
 	async load() {
+		console.log(process.env.WP_URL)
 		if (_.isEmpty(this._data)) {
 			const
 				response = await fetch(process.env.WP_URL + '/wp-json/invision/v1/sitedata'),

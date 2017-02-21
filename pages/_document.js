@@ -1,3 +1,4 @@
+import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 
 import Header from '../components/header'
@@ -12,8 +13,7 @@ export default class CustomDocument extends Document {
 	}
 
 	render() {
-		return (
-		<html>
+		return (<html lang="en-US">
 			<Head>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="stylesheet" href="/static/main.css" />
@@ -26,7 +26,6 @@ export default class CustomDocument extends Document {
 				<NextScript />
 				<script src="/static/bundle.js" />
 			</body>
-		</html>
-		)
+		</html>)
 	}
 }

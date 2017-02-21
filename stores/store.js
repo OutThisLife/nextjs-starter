@@ -1,22 +1,21 @@
-import _ from 'lodash'
 import EventEmitter from 'events'
+import _ from 'lodash'
+import fetch from 'isomorphic-fetch'
 
 require('es6-promise').polyfill()
-require('isomorphic-fetch')
 
 // ---------------------------------------------
 
 export default _.extend({}, EventEmitter.prototype, {
-	_data: [],
+	data: [],
 
 	async load() {
-		console.log(process.env.WP_URL)
-		if (_.isEmpty(this._data)) {
+		if (_.isEmpty(this.data)) {
 			const
-				response = await fetch(process.env.WP_URL + '/wp-json/invision/v1/sitedata'),
+				response = await fetch(`${process.env.WP_URL}/wp-json/invision/v1/sitedata`),
 				json = await response.json()
 
-			this._data = json
+			this.data = json
 		}
 
 		return true
@@ -29,21 +28,21 @@ export default _.extend({}, EventEmitter.prototype, {
 	},
 
 	Get(filter) {
-		return _.filter(this._data, filter)
+		return _.filter(this.data, filter)
 	},
 
 	GetPage(slug) {
-		return _.first(_.filter(this._data.pages, {
-			url: slug
+		return _.first(_.filter(this.data.pages, {
+			url: slug,
 		})) || {}
 	},
 
 	GetMenu(slug) {
-		return this._data.menus[slug].links || []
+		return this.data.menus[slug].links || []
 	},
 
 	isEmpty() {
-		return _.isEmpty(this._data)
+		return _.isEmpty(this.data)
 	},
 
 	// --
@@ -52,7 +51,7 @@ export default _.extend({}, EventEmitter.prototype, {
 		this.on('change', callback)
 	},
 
-	emitChange: function() {
+	emitChange() {
 		this.emit('change')
 	},
 })

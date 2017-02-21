@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/OutThisLife/nextjs-starter.svg?branch=master)](https://travis-ci.org/OutThisLife/nextjs-starter)
+
 Uses Next.js: https://zeit.co/blog/next which is an amazing framework for rendering JS on the server. However, it's too opinionated on CSS-in-JS which didn't suit my needs.
 
 This starter will let you render client-specific JS/CSS (SASS) while still having the power of Next.js on the server.

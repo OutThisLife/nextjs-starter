@@ -1,0 +1,9 @@
+{
+	"name": "nextjs-starter",
+	"description": "",
+	"scripts": {},
+	"env": {
+		"CMS": ""
+	},
+	"buildbacks": [{ "url": "heroku/nodejs" }]
+}

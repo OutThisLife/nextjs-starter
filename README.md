@@ -1,4 +1,4 @@
-# Next.js starter
+# Geolocation API
 next.js + headless CMS
 
 This is a base install with zero functionality. It's just the scaffolding for the new react and CMS stack.

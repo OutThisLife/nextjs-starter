@@ -1,5 +1,21 @@
-import withData from '@/lib/withData'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+import { compose } from 'recompose'
 
-export default withData(props => (
-  <div>Hi. I have all CMS data: ${props}</div>
-))
+export default compose(
+  graphql(gql`
+    query home {
+      init @rest(type: "Initial", path: "/init", endpoint: "inv") {
+        pages
+      }
+    }
+  `)
+)(({ data }) => {
+  if (data.loading) {
+    return <div>Loading.</div>
+  }
+
+  console.log(data)
+
+  return <div>hi</div>
+})

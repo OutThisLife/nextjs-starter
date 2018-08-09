@@ -3,7 +3,8 @@
 	"description": "",
 	"scripts": {},
 	"env": {
-		"CMS": ""
+    "CMS": { "required": true },
+    "SERVER": ""
 	},
-	"buildbacks": [{ "url": "heroku/nodejs" }]
+	"buildbacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#v83" }]
 }

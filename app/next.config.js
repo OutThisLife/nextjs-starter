@@ -1,11 +1,20 @@
-require('dotenv').load()
-require('dotenv').load()
+const isDev = process.env.NODE_ENV !== 'production'
 
-const fetch = require('isomorphic-fetch')
+if (isDev) {
+  require('dotenv').config()
+}
 
 module.exports = {
+  assetPrefix: isDev ? '' : process.env.SERVER,
   useFileSystemPublicRoutes: false,
-  webpack: config => {
+  publicRuntimeConfig: {
+    CMS: process.env.CMS
+  },
+  webpack: (config, { dev }) => {
+    if (!dev) {
+      config.output.publicPath = `${process.env.SERVER}${config.output.publicPath}`
+    }
+
     config.module.rules.push(
       {
         test: /\.(css|scss)/,
@@ -21,20 +30,5 @@ module.exports = {
     )
 
     return config
-  },
-
-  async exportPathMap () {
-    const pages = { '/': { page: '/' } }
-
-    try {
-      const json = await (await fetch(process.env.CMS)).json()
-      json.pages.map(page => {
-        pages[page.url] = { page: '/' }
-      })
-    } catch (e) {
-      throw e
-    }
-
-    return pages
   }
 }

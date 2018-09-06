@@ -1,21 +1,28 @@
 {
-	"presets": [
-		"next/babel"
-	],
-	"plugins": [
-		["module-resolver", {
-			"cwd": "babelrc",
-			"root": ["./"],
-			"alias": {
-        "@": "./app"
-			}
-    }],
-		["styled-components",
-			{
-				"ssr": true,
-				"displayName": true,
-				"preprocess": false
-			}
-		]
-	]
+  "presets": ["@babel/preset-env", "next/babel", "@zeit/next-typescript/babel"],
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-transform-runtime",
+    [
+      "module-resolver",
+      {
+        "cwd": "babelrc",
+        "alias": {
+          "@": "./app",
+          "@lib": "./app/lib",
+          "@components": "./app/components",
+          "@static": "./app/static",
+          "@vars": "./app/variables"
+        }
+      }
+    ],
+    [
+      "styled-components",
+      {
+        "ssr": true,
+        "displayName": true,
+        "preprocess": false
+      }
+    ]
+  ]
 }

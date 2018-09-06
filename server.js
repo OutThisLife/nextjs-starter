@@ -73,7 +73,7 @@ app.prepare().then(() => {
       return next()
     })
 
-    .get('/', render('/page'))
+    .get('/', render('/index'))
     .get('/:slug', render('/page'))
     .get('*', (req, res) => handle(req, res))
 

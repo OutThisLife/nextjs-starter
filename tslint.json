@@ -8,9 +8,9 @@
   "rules": {
     "no-console": false,
     "no-bitwise": false,
-    "object-literal-sort-keys": false,
     "no-var-requires": false,
     "interface-name": false,
+    "object-literal-sort-keys": false,
     "quotemark": [true, "single", "jsx-double",  "avoid-escape"]
   },
   "rulesDirectory": []

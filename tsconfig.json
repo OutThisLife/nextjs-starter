@@ -13,10 +13,11 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "lib": ["dom", "es2017"],
     "typeRoots": ["./typings", "./node_modules/@types"],
     "paths": {
+      "@types": ["typings/index.d.ts"],
       "@/*": ["app/*"],
       "@lib/*": ["app/lib/*"],
       "@components/*": ["app/components/*"],
@@ -24,8 +25,13 @@
       "@static/*": ["app/static/*"],
       "@vars": ["app/variables/index"],
       "@vars/*": ["app/variables/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
   },
-  "include": ["app/**/*"],
-  "exclude": ["node_modules/**", "**/*.spec", "app/out/**", "app/.next/**"]
+  "include": ["app/**/*", "typings/*"],
+  "exclude": ["**/*.spec", "app/out/**", "app/.next/**"]
 }

@@ -23,8 +23,6 @@ export default withApolloClient(
     public render() {
       const { Component, pageProps, apolloClient } = this.props
 
-      console.log(Component)
-
       return (
         <Container>
           <ApolloProvider client={apolloClient}>

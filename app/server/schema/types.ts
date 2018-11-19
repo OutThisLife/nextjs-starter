@@ -5,6 +5,7 @@ export default gql`
 
   type Query {
     pages: [Page]
+    single(slug: String!): Page
   }
 
   type Page @cacheControl(maxAge: 10e5) {

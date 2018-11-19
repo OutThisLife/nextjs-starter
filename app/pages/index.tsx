@@ -1,29 +1,43 @@
 import gql from 'graphql-tag'
-import shuffle from 'lodash/shuffle'
+import { RouterProps, withRouter } from 'next/router'
 import { DataProps, graphql } from 'react-apollo'
 import { compose, setDisplayName } from 'recompose'
 
-export default compose<DataProps<{ pages: Page[] }>, {}>(
-  setDisplayName('homepage'),
-  graphql(gql`
-    query GetPages {
-      pages {
-        id
-        title
+interface Props extends DataProps<{ single: Page }> {
+  router?: RouterProps
+}
+
+export default compose<Props, {}>(
+  setDisplayName('page'),
+  withRouter,
+  graphql<Props, Props>(
+    gql`
+      query GetPages($slug: String!) {
+        single(slug: $slug) {
+          id
+          title
+        }
       }
+    `,
+    {
+      options: ({
+        router: {
+          query: { slug }
+        }
+      }) => ({
+        variables: { slug }
+      })
     }
-  `)
-)(({ data: { loading, pages = [] } }) => {
+  )
+)(({ data: { loading, single } }) => {
   if (loading) {
     return <div>Loading.</div>
   }
 
-  const page = shuffle(pages)[0]
-
   return (
     <div>
-      id: {page.id}
-      <br /> title: {page.title.rendered}
+      id: {single.id}
+      <br /> title: {single.title}
     </div>
   )
 })

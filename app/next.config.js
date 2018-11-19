@@ -30,9 +30,10 @@ const config = {
         test: /\.css$/,
         use: ['to-string-loader', 'css-loader']
       }
-    )
+      )
 
-    return config
+      return config
+    }
   }
 }
 

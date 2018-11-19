@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "dev": "nodemon ./app/server/index.ts",
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./app/.next/production-server/index.js",

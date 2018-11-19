@@ -69,11 +69,7 @@ const create = (initialState = {}) => {
     link,
     cache,
     ssrMode: !('browser' in process),
-    connectToDevTools: 'browser' in process && isDev,
-    clientState: {
-      defaults: {},
-      resolvers: {}
-    }
+    connectToDevTools: 'browser' in process && isDev
   })
 }
 

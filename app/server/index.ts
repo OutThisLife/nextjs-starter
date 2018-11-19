@@ -1,12 +1,12 @@
-import { ApolloServer } from 'apollo-server'
 import * as compression from 'compression'
 import * as express from 'express'
 import { RequestHandlerParams } from 'express-serve-static-core'
 import * as helmet from 'helmet'
+import * as LRU from 'lru-cache'
 import * as next from 'next'
 import * as path from 'path'
 
-import { cache, resolvers, typeDefs } from './schema'
+import schema from './schema'
 
 const dev = process.env.NODE_ENV !== 'production'
 
@@ -17,8 +17,13 @@ if (!dev && process.env.NEW_RELIC_HOME) {
 const dir = path.resolve(process.cwd(), 'app')
 const port = parseInt(process.env.PORT, 10) || 3000
 
-const app = next({ dir, dev, quiet: true })
-const handle = app.getRequestHandler()
+const nextApp = next({ dir, dev })
+const handle = nextApp.getRequestHandler()
+
+export const cache = new LRU({
+  max: 500,
+  maxAge: 10e4
+})
 
 // -----------------------------------------
 
@@ -33,7 +38,7 @@ const render = (page = '/') => (req: express.Request, res: express.Response) => 
 
   try {
     ;(async () => {
-      const html = await app.renderToHTML(req, res, page, req.params)
+      const html = await nextApp.renderToHTML(req, res, page, req.params)
 
       if (res.statusCode !== 200) {
         res.send(html)
@@ -46,72 +51,60 @@ const render = (page = '/') => (req: express.Request, res: express.Response) => 
       res.send(html)
     })()
   } catch (err) {
-    app.renderError(err, req, res, req.query)
+    nextApp.renderError(err, req, res, req.query)
   }
 }
 
 // -----------------------------------------
 
-app.prepare().then(() => {
-  new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: { cache },
-    playground: {
-      endpoint: '/graphiql'
-    }
-  })
-    .listen(port + 1)
-    .catch(err => {
-      throw err
+nextApp.prepare().then(() => {
+  const app = express()
+
+  app
+    .use(helmet())
+    .use(
+      compression({
+        level: 6,
+        filter: () => true
+      })
+    )
+
+    .use((req, _, resolve) => {
+      if (!('API_URL' in nextApp.nextConfig.publicRuntimeConfig)) {
+        Object.defineProperty(nextApp.nextConfig.publicRuntimeConfig, 'API_URL', {
+          value: `${req.protocol}://${req.headers.host}/graphql`
+        })
+      }
+
+      return resolve()
     })
-    .then(() => {
-      console.log(`🚀\n>graphql server ready at http://[::1]:${port + 1}`)
 
-      express()
-        .use(helmet())
+    .use((req, res, resolve) => {
+      let staticUrl
 
-        .use(
-          compression({
-            level: 6,
-            filter: () => true
-          })
-        )
+      if (req.url.endsWith('service-worker.js')) {
+        staticUrl = path.join(dir, `./.next/${req.url}`)
+      } else if (/(robots\.txt|favicon\.ico)$/.test(req.url)) {
+        staticUrl = path.join(dir, `./static/${req.url}`)
+      }
 
-        .use(({ secure, headers, hostname, url }, res, resolve) => {
-          if (!dev && !secure && headers['x-forwarded-proto'] !== 'https') {
-            return res.redirect(`https://${hostname}${url}`)
-          }
+      if (staticUrl) {
+        return nextApp.serveStatic(req, res, staticUrl)
+      }
 
-          return resolve()
-        })
+      return resolve()
+    })
 
-        .use((req, res, resolve) => {
-          let staticUrl
+    .get('/', render('/index'))
+    .get('/:slug/:lv0/:lv1', render('/page'))
+    .use(schema({ app, dev }))
+    .get('*', handle as RequestHandlerParams)
 
-          if (req.url.endsWith('service-worker.js')) {
-            staticUrl = path.join(dir, `./.next/${req.url}`)
-          } else if (/(robots\.txt)$/.test(req.url)) {
-            staticUrl = path.join(dir, `./static/${req.url}`)
-          }
+    .listen(port, err => {
+      if (err) {
+        throw err
+      }
 
-          if (staticUrl) {
-            return app.serveStatic(req, res, staticUrl)
-          }
-
-          return resolve()
-        })
-
-        .get('/', render('/index'))
-        .get('/:slug([a-zA-Z0-9.-]+)', render('/page'))
-        .get('*', handle as RequestHandlerParams)
-
-        .listen(port, err => {
-          if (err) {
-            throw err
-          }
-
-          console.log(`>ready on http://[::1]:${port}\n🚀`)
-        })
+      console.log(`>ready on http://[::1]:${port}\n🚀`)
     })
 })

@@ -1,30 +1,29 @@
 import gql from 'graphql-tag'
 import shuffle from 'lodash/shuffle'
-import { graphql } from 'react-apollo'
-import { compose } from 'recompose'
+import { DataProps, graphql } from 'react-apollo'
+import { compose, setDisplayName } from 'recompose'
 
-interface TInner {
-  data: {
-    loading: boolean
-    [key: string]: any
-  }
-}
-
-export default compose<TInner, {}>(
+export default compose<DataProps<{ pages: Page[] }>, {}>(
+  setDisplayName('homepage'),
   graphql(gql`
-    query {
-      pages @rest(type: "Page", path: "/pages") {
+    query GetPages {
+      pages {
         id
         title
       }
     }
   `)
-)(({ data }) => {
-  if (data.loading) {
+)(({ data: { loading, pages = [] } }) => {
+  if (loading) {
     return <div>Loading.</div>
   }
 
-  const page = shuffle(data.pages)[0]
+  const page = shuffle(pages)[0]
 
-  return <div>id: {page.id} <br /> title: {page.title.rendered}</div>
+  return (
+    <div>
+      id: {page.id}
+      <br /> title: {page.title.rendered}
+    </div>
+  )
 })

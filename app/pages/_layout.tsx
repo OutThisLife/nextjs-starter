@@ -1,37 +1,21 @@
-import Header from '@/components/header'
-import Sidebar from '@/components/sidebar'
 import themeVars from '@/theme'
 import { RouterProps, withRouter } from 'next/router'
-import { compose, withProps } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import styled, { ThemeProvider } from 'styled-components'
 
 interface TOutter {
   render: (a?: any) => JSX.Element
-  router?: RouterProps & {
-    query: {
-      slug?: string
-    }
-  }
+  router?: RouterProps
 }
 
-interface TInner {
-  getKey: (s?: string) => string
-}
-
-export default compose<TInner & TOutter, TOutter>(
-  withRouter,
-  withProps(({ router: { query }, ...props }) => ({
-    ...props,
-    getKey: (s = '') => `${s}${query.slug || 'home'}`
-  }))
-)(({ render, getKey }) => (
+export default compose<TOutter, TOutter>(
+  setDisplayName('layout'),
+  withRouter
+)(({ render }) => (
   <ThemeProvider theme={themeVars}>
-    <Main key="main">
-      <Header key={getKey('header')} />
-
+    <Main>
       <section>
-        <Sidebar key={getKey('sidebar')} />
-        <div key="app">{render({ getKey })}</div>
+        <div key="app">{render({})}</div>
       </section>
     </Main>
   </ThemeProvider>

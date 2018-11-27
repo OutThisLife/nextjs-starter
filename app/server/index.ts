@@ -6,6 +6,7 @@ import * as LRU from 'lru-cache'
 import * as next from 'next'
 import * as path from 'path'
 
+import routes from './routes'
 import schema from './schema'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -24,36 +25,6 @@ export const cache = new LRU({
   max: 500,
   maxAge: 10e4
 })
-
-// -----------------------------------------
-
-const render = (page = '/') => (req: express.Request, res: express.Response) => {
-  const key = req.url
-
-  if (!dev && cache.has(key)) {
-    res.setHeader('x-cache', 'HIT')
-    res.send(cache.get(key))
-    return
-  }
-
-  try {
-    ;(async () => {
-      const html = await nextApp.renderToHTML(req, res, page, req.params)
-
-      if (res.statusCode !== 200) {
-        res.send(html)
-        return
-      }
-
-      cache.set(key, html)
-
-      res.setHeader('x-cache', 'MISS')
-      res.send(html)
-    })()
-  } catch (err) {
-    nextApp.renderError(err, req, res, req.query)
-  }
-}
 
 // -----------------------------------------
 
@@ -95,8 +66,7 @@ nextApp.prepare().then(() => {
       return resolve()
     })
 
-    .get('/', render('/index'))
-    .get('/:slug/:lv0/:lv1', render('/page'))
+    .use(routes({ app, dev, cache }))
     .use(schema({ app, dev }))
     .get('*', handle as RequestHandlerParams)
 

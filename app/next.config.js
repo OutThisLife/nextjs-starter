@@ -5,8 +5,13 @@ const withTypescript = require('@zeit/next-typescript')
 const withOffline = require('next-offline')
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
+const fetch = require('isomorphic-unfetch')
+
+const { CMS } = process.env
+
 const config = {
   publicRuntimeConfig: {
+    API_URL: 'http://localhost:3000/graphql',
     isDev: process.env.NODE_ENV !== 'production'
   },
   webpack(config) {
@@ -30,10 +35,25 @@ const config = {
         test: /\.css$/,
         use: ['to-string-loader', 'css-loader']
       }
-      )
+    )
 
-      return config
-    }
+    return config
+  },
+
+  exportPathMap: async () => {
+    const pages = await (await fetch(`${CMS}/wp/v2/pages`)).json()
+
+    const paths = pages.reduce(
+      (acc, { slug }) =>
+        (acc[`/${slug}`] = {
+          page: '/index',
+          query: { slug }
+        }) && acc,
+      {}
+    )
+
+    console.log(paths[0])
+    return paths
   }
 }
 

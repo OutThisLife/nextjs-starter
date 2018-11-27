@@ -1,21 +1,23 @@
-import { gql, IResolvers } from 'apollo-server-express'
-import * as JSON from 'graphql-type-json'
-import * as LRU from 'lru-cache'
+import { ApolloServer } from 'apollo-server-express'
+import * as express from 'express'
 
-export const cache = LRU({
-  max: 152,
-  maxAge: 36e2
-})
+import dataSources from './datasources'
+import resolvers from './resolvers'
+import typeDefs from './types'
 
-export const resolvers: IResolvers = {
-  JSON,
-  Query: {}
+export default ({ app, dev }): express.Router => {
+  const router = express.Router()
+
+  new ApolloServer({
+    typeDefs,
+    dataSources,
+    resolvers,
+    introspection: dev,
+    playground: dev,
+    tracing: dev,
+    engine: false,
+    cacheControl: true
+  }).applyMiddleware({ app })
+
+  return router
 }
-
-export const typeDefs = gql`
-  scalar JSON
-
-  type Query {
-
-  }
-`
